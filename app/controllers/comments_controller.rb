@@ -1,5 +1,6 @@
 class CommentsController < ApplicationController
   before_action :set_comment, only: %i[ show edit update destroy ]
+  before_action :current_user_check, only: %i[edit update destroy]
 
   # GET /comments or /comments.json
   def index
@@ -61,6 +62,12 @@ class CommentsController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
     def set_comment
       @comment = Comment.find(params[:id])
+    end
+
+    def current_user_check
+      if @comment.author != current_user
+        redirect_back fallback_location: root_path, alert: "Nice try, sucker!"      
+      end
     end
 
     # Only allow a list of trusted parameters through.
