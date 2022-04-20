@@ -50,6 +50,7 @@
       </div>
 
       <div class="col">
+      <% if user == current_user%>
         <%=
           link_to "#",
             data: { 
@@ -63,6 +64,7 @@
           
           pending
 
+        <% end %>
         <% end %>
       </div>
     </div>
@@ -126,6 +128,7 @@
   </div>
 </div>
 
+<% if !@user.private? || @user.followers.find_by(:username => current_user.username) %>
 <%=
   render "users/connected_users_modal.html.erb",
     user: user,
@@ -141,7 +144,9 @@
     description: "following",
     target: "#{dom_id(user)}_following"
 %>
+<% end%>
 
+<% if user == current_user%>
 <%=
   render "users/connected_users_modal.html.erb",
     user: user,
@@ -149,3 +154,4 @@
     description: "pending",
     target: "#{dom_id(user)}_pending"
 %>
+<% end%>
