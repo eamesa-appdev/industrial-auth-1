@@ -128,7 +128,7 @@
   </div>
 </div>
 
-<% if !@user.private? || @user.followers.find_by(:username => current_user.username) %>
+<% if !@user.private? || @user.followers.find_by(:username => current_user.username) || @user == current_user%>
 <%=
   render "users/connected_users_modal.html.erb",
     user: user,
